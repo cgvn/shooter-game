@@ -116,12 +116,15 @@ def play_round(shooters: list[Shooter], verbose: bool = False) -> list[int]:
         target_list = [s.name for s in shooters if s.status == 'alive']
         shooter.target_list = target_list.copy()
         shooter.choose_target()
-        if shooter.shoot_target():
+        
+        # Updated section
+        hit = shooter.shoot_target()
+        if hit:
             target_index = find_index(shooter_names, shooter.target)
             shooters[target_index].status = 'dead'
         if verbose:
-            print(f"Target list: {target_list}")
-            print(f"{shooter.name} aimed at {shooter.target}. Kill is {'successful' if shooter.shoot_target() else 'unsuccessful'}.")
+            print(f"{shooter.name} aimed at {shooter.target}. Kill is {'successful' if hit else 'unsuccessful'}.")
+    
     return [shooter.name for shooter in shooters if shooter.status == 'alive']
 
 
